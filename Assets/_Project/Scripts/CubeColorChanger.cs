@@ -1,11 +1,20 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Renderer))]
 public class CubeColorChanger : MonoBehaviour
 {
     [SerializeField] private Color _color;
 
-    public void Change(Renderer renderer)
+    private Renderer _renderer;
+    private Color _defaultColor;
+
+    private void Awake()
     {
-        renderer.material.color = _color;
+        _renderer = GetComponent<Renderer>();
+        _defaultColor = _renderer.material.color;
     }
+
+    public void SetColorToDefault() => _renderer.material.color = _defaultColor;
+
+    public void ChangeColor() => _renderer.material.color = _color;
 }

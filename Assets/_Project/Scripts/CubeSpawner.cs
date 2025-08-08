@@ -23,7 +23,7 @@ public class CubeSpawner : MonoBehaviour
 
             cube.transform.position = GetRandomSpawnPosition();
 
-            cube.TouchedPlatform += OnCubeTouchedPlatform;
+            cube.LifetimeExpired += OnCubeLifetimeExpired;
 
             yield return waitForSeconds;
         }
@@ -34,18 +34,9 @@ public class CubeSpawner : MonoBehaviour
         return _spawnPoints[Random.Range(0, _spawnPoints.Length)].position;
     }
 
-    private void OnCubeTouchedPlatform(Cube cube)
+    private void OnCubeLifetimeExpired(Cube cube)
     {
-        StartCoroutine(DestroyCubeWithDelay(cube));
-    }
-
-    private IEnumerator DestroyCubeWithDelay(Cube cube)
-    {
-        var waitForSeconds = new WaitForSeconds(cube.GetLifeTime());
-
-        yield return waitForSeconds;
-
-        cube.TouchedPlatform -= OnCubeTouchedPlatform;
+        cube.LifetimeExpired -= OnCubeLifetimeExpired;
 
         _cubePool.ReturnCube(cube);
     }

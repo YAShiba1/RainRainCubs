@@ -36,8 +36,7 @@ public class CubePool : MonoBehaviour
     {
         for (int i = 0; i < _poolCapacity; i++)
         {
-            Cube cube = _pool.Get();
-            _pool.Release(cube);
+            _pool.Release(_pool.Get());
         }
     }
 }
